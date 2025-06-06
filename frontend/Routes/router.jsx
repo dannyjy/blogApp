@@ -1,12 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../src/App.jsx';
-import NotFound from './../src/VIews/Components/NotFound';
+import NotFound from './../src/VIews/UI/NotFound';
+import Login from '../src/VIews/Components/Login.jsx';
+import SignUp from '../src/VIews/Components/SignUp.jsx';
+import Settings from '../src/VIews/Components/Settings.jsx';
+import Profile from '../src/VIews/Components/Profile.jsx';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        errorElement: <NotFound />,
+        errorElement: <NotFound/>,
         children: [
             {
                 path: '/',
@@ -18,29 +22,29 @@ const router = createBrowserRouter([
             },
             {
                 path: '/user/profile',
-                element: <div>Profile Page</div>,
+                element: <Profile/>,
             },
             {
                 path: '/user/settings',
-                element: <div>Settings Page</div>,
+                element: <Settings/>,
             },
             {
                 path: '/Admin',
-                element: <div>Services Page</div>,
+                element: <div>Admin Page</div>,
             },
             {
-                path: '/blog',
-                element: <div>Blog Page</div>,
+                path: '/write',
+                element: <div>Write Page</div>,
             },
         ]
     },
     {
         path: '/login',
-        element: <div>Login Page</div>,
+        element: <Login/>,
     },
     {
         path: '/signup',
-        element: <div>Sign Up Page</div>,
+        element: <SignUp/>,
     },
 ]);
 

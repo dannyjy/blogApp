@@ -1,11 +1,13 @@
 import '../../Styles/Nav.scss'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import Post from '../UI/Post';
 
 const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [user,setUser] = useState(false);
+  const [toggle,setToggle] = useState(false);
 
   const handleMenuToggle = () => {
     setUser(!user);
@@ -19,24 +21,34 @@ const Nav = () => {
     setUser(false);
     navigate('/');
   }
+  const handlePostToggle = () => {
+    setToggle(!toggle);
+  }
 
   return (
     <nav>
       <div className="container">
         <h1 onClick={() => {navigate('/')}} className="logo">Tech<span>Chat</span></h1>
-        <ul>
-          <li><Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link></li>
-          <li><Link to="/blog" className={location.pathname === '/blog' ? 'active' : ''}>Blog</Link></li>
-        </ul>
+        <div className="search">
+          <img src="/images/search.svg" alt="" />
+          <input type="text" placeholder="Search" />
+        </div>
       </div>
       {
         location.pathname === '/user' ? (
           <div className='user-menu'>
-            <section  onClick={handleMenuToggle}>
+            <div className='write' onClick={handlePostToggle}>
+              <img src="/images/write.svg" alt="" className='icon'/>
+              <p>Write</p>
+            </div>
+            {
+              toggle &&  <Post Close={handlePostToggle}/>
+            }
+            <div className='profile'  onClick={handleMenuToggle}>
               <div className='user' style={{ backgroundImage: 'url("/images/csparp.jpg")' }}
               ></div>
               <h4>John Doe</h4>
-            </section>
+            </div>
             {user && (
               <div className='user-dropdown'>
                 <ul>
@@ -49,8 +61,17 @@ const Nav = () => {
           </div>
         ) : (
           <div className='btns'>
-            <button><Link to="/login">Login</Link></button>
-            <button><Link to="/signup">SignUp</Link></button>
+            <div className='write' onClick={handlePostToggle}>
+              <img src="/images/write.svg" alt="" className='icon'/>
+              <p>Write</p>
+            </div>
+            {
+              toggle && <Post Close={handlePostToggle}/>
+            }
+            <section>
+              <Link to="/login"><button>Login</button></Link>
+              <Link to="/signup"><button>Sign</button></Link>
+            </section>
           </div>
         )
       }

@@ -1,0 +1,122 @@
+POST http://localhost:5009/User/user
+Content-Type: application/json
+
+{
+    "FirstName": "James",
+    "LastName": "David",
+    "Email": "jd@example.com",
+    "Password": "password123"
+}
+
+###
+GET http://localhost:5009/User/user
+
+###
+GET http://localhost:5009/User/user/4
+
+###
+PUT http://localhost:5009/User/user/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "FirstName": "King",
+    "LastName": "David",
+    "Email": "david@example.com"
+}
+
+###
+PUT http://localhost:5009/User/user/1/password
+Content-Type: application/json
+
+{
+    "newPassword": "password567"
+}
+
+###
+GET  http://localhost:5009/User/user/search?query=aj@example.com
+
+###
+DELETE http://localhost:5009/User/user/3
+
+###
+POST http://localhost:5009/User/login
+Content-Type: application/json
+
+{
+    "Email": "aj@example.com",
+    "Password": "password123"
+}
+
+#################################################################################################
+###
+POST http://localhost:5009/Comments/comment
+Content-Type: application/json
+
+{
+    "PostId": 8406,
+    "UserId": 4,
+    "Comment": "Hello Samuel"
+}
+
+###
+GET http://localhost:5009/Comments/comments
+
+###
+GET http://localhost:5009/Comments/comments/1
+
+###
+PUT http://localhost:5009/Comments/comments/1
+Content-Type: application/json
+
+{
+    "Comment": "Hey Alpha"
+}
+
+###
+DELETE http://localhost:5009/Comments/comments/9591
+
+###################################################################################################
+### Add a post for a user
+POST http://localhost:5009/Posts/posts?id=4
+Content-Type: application/json
+
+{
+    "Title": "Hello Daniel",
+    "Image": "dasfasfsafsafasfdas",
+    "Category": "Programming",
+    "Description": "Hello World"
+}
+
+### Update a post
+PUT http://localhost:5009/Posts/post/7513
+Content-Type: application/json
+
+{
+    "Title": "Hello Daniel",
+    "Image": "asdfgdfghjuytrtewreq",
+    "Category": "Design",
+    "Description": "UI/UX Design"
+}
+
+### Delete a post
+DELETE http://localhost:5009/Posts/post/7513
+
+### Get all posts
+GET http://localhost:5009/Posts/post
+
+### Get post for a user
+GET http://localhost:5009/Posts/posts
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+### Search for posts
+GET http://localhost:5009/Posts/post/search
+Content-Type: application/json
+
+{
+    "query": "Programming"
+}
