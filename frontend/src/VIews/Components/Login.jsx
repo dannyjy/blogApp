@@ -67,57 +67,59 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">Welcome Back</h1>
-      <form noValidate onSubmit={handleLogin} className="login-form">
-        <div className="form-group">
-          <div className="input-with-icon">
-            <img
-              className="icon-svg"
-              src="/images/email-svgrepo-com.svg"
-              alt="Email icon"
-            />
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+    <div className="login-page">
+      <div className="login-container">
+        <h1 className="login-title">Welcome Back</h1>
+        <form noValidate onSubmit={handleLogin} className="login-form">
+          <div className="form-group">
+            <div className="input-with-icon">
+              <img
+                className="icon-svg"
+                src="/images/email-svgrepo-com.svg"
+                alt="Email icon"
+                />
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Email"
+                className="form-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
+            {emailError && <p className="error-message">{emailError}</p>}
+
+            <div className="input-with-icon">
+              <img
+                className="icon-svg"
+                src="/images/key-4-svgrepo-com.svg"
+                alt="Password icon"
+                />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                className="form-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
-          {emailError && <p className="error-message">{emailError}</p>}
 
-          <div className="input-with-icon">
-            <img
-              className="icon-svg"
-              src="/images/key-4-svgrepo-com.svg"
-              alt="Password icon"
-            />
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
+          {loginError && <p className="error-message">{loginError}</p>}
 
-        {loginError && <p className="error-message">{loginError}</p>}
+          <button type="submit" className="login-button">
+            Sign In
+          </button>
+        </form>
 
-        <button type="submit" className="login-button">
-          Sign In
-        </button>
-      </form>
-
-      <p className="signup-link">
-        I don't have an account yet <Link to="/signup"> Sign Up</Link>
-      </p>
+        <p className="signup-link">
+          I don't have an account yet <Link to="/signup"> Sign Up</Link>
+        </p>
+      </div>
     </div>
   );
 };

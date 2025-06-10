@@ -96,80 +96,82 @@ const SignUp = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">Join Us Today</h1>
-      <form noValidate onSubmit={handleSignUp} className="login-form">
-        <div className="form-group">
-          <div className="input-with-icon">
-            <img
-              className="icon-svg"
-              src="/images/user-svgrepo-com.svg"
-              alt="User icon"
-            />
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Last Name"
-              className="form-input"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+    <div className="signup-page">
+      <div className="login-container">
+        <h1 className="login-title">Join Us Today</h1>
+        <form noValidate onSubmit={handleSignUp} className="login-form">
+          <div className="form-group">
+            <div className="input-with-icon">
+              <img
+                className="icon-svg"
+                src="/images/user-svgrepo-com.svg"
+                alt="User icon"
+                />
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Last Name"
+                className="form-input"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            {usernameError && <p className="error-message">{usernameError}</p>}
           </div>
-          {usernameError && <p className="error-message">{usernameError}</p>}
-        </div>
 
-        <div className="form-group">
-          <div className="input-with-icon">
-            <img
-              className="icon-svg"
-              src="/images/email-svgrepo-com.svg"
-              alt="Email icon"
-            />
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <div className="form-group">
+            <div className="input-with-icon">
+              <img
+                className="icon-svg"
+                src="/images/email-svgrepo-com.svg"
+                alt="Email icon"
+                />
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Email"
+                className="form-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
 
-        <div className="form-group">
-          {" "}
-          <div className="input-with-icon">
-            <img
-              className="icon-svg"
-              src="/images/key-4-svgrepo-com.svg"
-              alt="Password icon"
-            />
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <div className="form-group">
+            {" "}
+            <div className="input-with-icon">
+              <img
+                className="icon-svg"
+                src="/images/key-4-svgrepo-com.svg"
+                alt="Password icon"
+                />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                className="form-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
 
-        {signupError && <p className="error-message">{signupError}</p>}
+          {signupError && <p className="error-message">{signupError}</p>}
 
-        <button type="submit" className="login-button">
-          Sign Up
-        </button>
-      </form>
+          <button type="submit" className="login-button">
+            Sign Up
+          </button>
+        </form>
 
-      <p className="signup-link">
-        I already have an account <Link to="/Login"> Sign In</Link>{" "}
-      </p>
+        <p className="signup-link">
+          I already have an account <Link to="/Login"> Sign In</Link>{" "}
+        </p>
+      </div>
     </div>
   );
 };
