@@ -8,7 +8,7 @@ using backend.DTO;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class UserController : Controller
     {
         private readonly AppDbContext _context;
@@ -29,7 +29,7 @@ namespace backend.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
         [HttpGet("user")]
@@ -97,7 +97,7 @@ namespace backend.Controllers
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok($"Password updated successfully, {user})");
+            return Ok($"Password updated successfully");
         }
 
         [HttpDelete("user/{id}")]
@@ -155,7 +155,18 @@ namespace backend.Controllers
                 return Unauthorized("Invalid email or password");
             }
 
-            return Ok(user);
+            var userDto = new
+            {
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.CreatedAt,
+                user.Posts,
+                user.Comments
+            };
+
+            return Ok(userDto);
         }
     }
 }

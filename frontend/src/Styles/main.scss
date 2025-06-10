@@ -1,65 +1,78 @@
 @use "./global" as *;
 
 .main-content{
-    
+    padding: 0rem 1rem;
+    padding-top: 2rem;
     .blog-section{
         height: 100vh;
-        display: grid;
-        grid-template-columns: 30% 70%;
-    }
-}
-.section{
-    padding-left: 1rem;
-    border-left: 1px solid #D5D5D5;
-    
-    h1{
-        padding-bottom: .5rem;
-        border-bottom: 1px solid #D5D5D5;
-    }
-    .section-content{
-        padding-top: 1rem;
-    }
-}
-.aside{
-    padding-right: 1rem;
-    h1{
-        padding-bottom: 1rem;
-    }
-    
-    .categories{
-        gap: 1rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(90px,1fr));
 
-        button{
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 1rem;
-            padding: .9rem 1.5rem;
-            background-color: #D5D5D5;
+    }
+
+     .section{
+        padding-top: 1rem;
+
+        h1{
+            padding-bottom: .5rem;
+            border-bottom: 1px solid #D5D5D5;
             
-            &:hover{
+            a{
+                padding-bottom: .5rem;
+                border-bottom: 2px solid #3E3E3E;
+            }
+        }
+        .section-content{
+            padding-top: 1rem;
+        }
+    }
+    
+    .aside{
+        padding-bottom: 1rem;
+
+        h1{
+            padding-bottom: 1rem;
+        }
+        
+        .categories{
+            gap: .5rem;
+            display: flex;
+            flex-wrap: wrap;
+    
+            button{
+                border: none;
+                font-weight: 600;
+                font-size: 1rem;
+                cursor: pointer;
+                border-radius: 1rem;
+                padding: .9rem 1.5rem;
+                background-color: #D5D5D5;
+                
+                &:hover{
+                    color: #fff;
+                    background-color: #3E3E3E;
+                }
+            }
+            button.active{
                 color: #fff;
                 background-color: #3E3E3E;
             }
         }
-        button.active{
-            color: #fff;
-            background-color: #3E3E3E;
-        }
     }
 }
 
-@media (width >= 1280px) {
-    .App {
+
+@media (width >= 1000px) {
+    .main-content{
         max-width: 1366px;
         margin: auto;
         
-        .main-content{
-            padding-top: 2rem;
-
+        .blog-section{
+            display: grid;
+            grid-template-columns: 30% 70%;
         }
+    }
+
+    .section{
+        padding-left: 1rem;
+        border-left: 1px solid #D5D5D5;
     }
 }

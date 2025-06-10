@@ -1,4 +1,4 @@
-POST http://localhost:5009/User/user
+POST http://localhost:5009/user
 Content-Type: application/json
 
 {
@@ -9,13 +9,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5009/User/user
+GET http://localhost:5009/user
 
 ###
-GET http://localhost:5009/User/user/4
+GET http://localhost:5009/user/4
 
 ###
-PUT http://localhost:5009/User/user/1
+PUT http://localhost:5009/user/1
 Content-Type: application/json
 
 {
@@ -26,21 +26,20 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5009/User/user/1/password
+PUT http://localhost:5009/user/1/password
 Content-Type: application/json
-
 {
     "newPassword": "password567"
 }
 
 ###
-GET  http://localhost:5009/User/user/search?query=aj@example.com
+GET  http://localhost:5009/user/search?query=aj@example.com
 
 ###
-DELETE http://localhost:5009/User/user/3
+DELETE http://localhost:5009/user/3
 
 ###
-POST http://localhost:5009/User/login
+POST http://localhost:5009/login
 Content-Type: application/json
 
 {
@@ -50,23 +49,20 @@ Content-Type: application/json
 
 #################################################################################################
 ###
-POST http://localhost:5009/Comments/comment
+POST http://localhost:5009/comment
 Content-Type: application/json
 
 {
     "PostId": 8406,
     "UserId": 4,
-    "Comment": "Hello Samuel"
+    "Comment": "Hey Everyone I am making a new comment"
 }
 
 ###
-GET http://localhost:5009/Comments/comments
+GET http://localhost:5009/comments
 
 ###
-GET http://localhost:5009/Comments/comments/1
-
-###
-PUT http://localhost:5009/Comments/comments/1
+PUT http://localhost:5009/comments/1
 Content-Type: application/json
 
 {
@@ -74,11 +70,17 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5009/Comments/comments/9591
+GET http://localhost:5009/comments/post/8406
+
+###
+GET http://localhost:5009/comments/user/5
+
+###
+DELETE http://localhost:5009/comments/9590
 
 ###################################################################################################
 ### Add a post for a user
-POST http://localhost:5009/Posts/posts?id=4
+POST http://localhost:5009/posts?id=4
 Content-Type: application/json
 
 {
@@ -89,7 +91,7 @@ Content-Type: application/json
 }
 
 ### Update a post
-PUT http://localhost:5009/Posts/post/7513
+PUT http://localhost:5009/post/7513
 Content-Type: application/json
 
 {
@@ -100,13 +102,13 @@ Content-Type: application/json
 }
 
 ### Delete a post
-DELETE http://localhost:5009/Posts/post/7513
+DELETE http://localhost:5009/post/7513
 
 ### Get all posts
-GET http://localhost:5009/Posts/post
+GET http://localhost:5009/post
 
 ### Get post for a user
-GET http://localhost:5009/Posts/posts
+GET http://localhost:5009/posts
 Content-Type: application/json
 
 {
@@ -114,7 +116,7 @@ Content-Type: application/json
 }
 
 ### Search for posts
-GET http://localhost:5009/Posts/post/search
+GET http://localhost:5009/post/search
 Content-Type: application/json
 
 {

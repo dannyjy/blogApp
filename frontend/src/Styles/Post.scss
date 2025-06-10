@@ -1,41 +1,82 @@
-.overlay{
+@mixin inputStyle{
+    border: none;
+    padding: 1rem;
+    font-weight: px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    background: #D5D5D5;
+}
+
+@mixin buttonStyle{
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 1rem;
+    padding: .9rem 1.6rem;
+    background-color: #3E3E3E;
+}
+
+.floating{
     top: 0;
     left: 0;
     width: 100%;
-    position: absolute;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
     background-color: #000000e1;
     
     .post{
         width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;;
-
+        max-width: 550px;
+        border-radius: 1rem;
+        background-color: #F2F2F2;
+        
         .form{
+            width: 100%;
+            gap: .6rem;
+            display: flex;
             padding: 2rem;
-            max-width: 850px;
-            border-radius: 1rem;
-            background-color: #F2F2F2;
+            flex-direction: column;
 
-            .upload{
-                display: flex;
-                margin-bottom: 1rem;
-                border-radius: 10px;
-                border: 2px solid #a9a9a9;
-                
-                input[type="file"]{display: none;}
-                
-                label[for="imageUpload"] {
-                    width: 100%;
-                    font-size: 1.1em;
+            .uploadholder{
+
+                .upload{
+                    display: flex;
+                    padding: 8rem;
                     cursor: pointer;
-                    text-align: center;
-                    color: #4e4e4e;
-                    padding: 2rem;
-                    
+                    border-radius: 8px;
+                    margin-bottom: 1rem;
+                    align-items: center;
+                    background: #D5D5D5;
+                    justify-content: center;
+                    border: 1px solid #a9a9a9;
+                }
+                input[type="file"]{display: none;}
+            }
+
+            input{@include inputStyle}
+            select{@include inputStyle}
+            textarea{
+                resize: none;
+                height: 140px;
+                @include inputStyle;
+            }
+
+            .btns{
+                display: flex;
+
+                button{@include buttonStyle}
+                
+                button:nth-child(2){
+                    color: #000;
+                    background-color: #D5D5D5;
                 }
             }
+
         }
     }
 }

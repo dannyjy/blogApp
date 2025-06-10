@@ -12,19 +12,25 @@ a {
     border-bottom: 2px solid $primary_color;
 }
 
+.icon{
+    width: 1.8rem;
+    background: none;
+}
+
 nav{
     top: 0;
     z-index: 1;
+    margin: auto;
     display: flex;
+    padding: 1rem;
     position: sticky;
-    padding: 1rem 0rem;
+    max-width: 1366px;
     align-items: center;
     background-color: #F2F2F2;
     justify-content: space-between;
     border-bottom: 1px solid #dadada;
 
-    .container {
-        gap: 2rem;
+    .container{
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -37,21 +43,23 @@ nav{
                 color: #0f54a3;
             }
         }
-        
-        .search {
-            width: 220px;
-            display: flex;
-            padding: .4rem;
-            padding-left: 1rem;
-            align-items: center;
-            border-radius: 1.5rem;
-            background-color: #D5D5D5;
 
-            img{
-                width: 1.5rem;
-                background: none;
-            }
+        .search {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             
+            .search-input{
+
+                width: 220px;
+                display: flex;
+                padding: .4rem;
+                padding-left: 1rem;
+                align-items: center;
+                border-radius: 1.5rem;
+                background-color: #D5D5D5;
+            }
+
             input {
                 outline: none;
                 width: 100%;
@@ -60,103 +68,128 @@ nav{
                 background: none;
                 font-size: 1.2rem;
             }
+
+            .menu{
+                display: block;
+            }
         }
     }
 
     .btns {
-        gap: .5rem;
-        display: flex;
-        align-items: center;
+        display: none;
+    }
+    
+    .user-menu{
+        // display: none;
+    }
+}
+
+@media (width >= 900px) {
+    
+    nav{
         
-        section{
+        .container {
+            gap: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        
+            .search .menu{
+                display: none;
+            }
+        }
+    
+        .btns {
             gap: .5rem;
             display: flex;
             align-items: center;
-
-            button {
-                color: #fff;
-                border: none;
-                font-size: 1rem;
-                cursor: pointer;
-                border-radius: 1rem;
-                padding: .9rem 1.5rem;
-                background-color: #3E3E3E;
-            }
             
-            a:nth-child(2){
-                button{
-                    color: #000;
-                    background-color: #D5D5D5;
-                }
-            }
-        }
-    }
-  
-}
-
-.user-menu{
-    gap: 1rem;;
-    display: flex;
-    align-items: center;
-
-    .profile {
-        gap: .5rem;
-        display: flex;
-        padding: .5rem;
-        border-radius: 1.5rem;
-        align-items: center;
-        border: 2px solid #b9b9b9;
-
-        .user{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-size: cover;
-            background-position: center;
-        }
-
-    }
-    
-    .user-dropdown{
-        top: 100%;
-        overflow: hidden;
-        position: absolute;
-        border-radius: 1rem;
-        border: 2px solid #b9b9b9;
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-                font-size: 1.2rem;
-                color: #000;
-                padding: .6rem 2rem;
+            section{
+                gap: .5rem;
+                display: flex;
+                align-items: center;
                 
-                &:hover {
-                    background-color: #f0f0f0;
+                button {
+                    color: #fff;
+                    border: none;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    border-radius: 1rem;
+                    padding: .9rem 1.5rem;
+                    background-color: #3E3E3E;
+                }
+                
+                a:nth-child(2){
+                    button{
+                        color: #000;
+                        background-color: #D5D5D5;
+                    }
+                }
+            }
+        }
+    
+    
+        .user-menu{
+            gap: 1rem;;
+            display: flex;
+            align-items: center;
+            display: none;
+        
+            .profile {
+                gap: .5rem;
+                display: flex;
+                padding: .5rem;
+                border-radius: 1.5rem;
+                align-items: center;
+                border: 2px solid #b9b9b9;
+                
+                .user{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background-size: cover;
+                    background-position: center;
+                }
+                
+            }
+        
+            .user-dropdown{
+                top: 100%;
+                overflow: hidden;
+                position: absolute;
+                border-radius: 1rem;
+                border: 2px solid #b9b9b9;
+                
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    
+                    li {
+                        font-size: 1.2rem;
+                        color: #000;
+                        padding: .6rem 2rem;
+                        
+                        &:hover {
+                            background-color: #f0f0f0;
+                        }
+                    }
                 }
             }
         }
     }
-}
 
-.write{
-    gap: .2rem;
-    display: flex;
-    padding: .8rem;
-    cursor: pointer;
-    border-radius: 1rem ;
-    align-items: center;
-    background-color: #D5D5D5;
-
-    p{
-        font-size: 1.2rem;
-    }
-
-    .icon{
-        width: 1.8rem;
-        background: none;
+    .write{
+        gap: .2rem;
+        display: flex;
+        padding: .8rem;
+        cursor: pointer;
+        border-radius: 1rem ;
+        align-items: center;
+        background-color: #D5D5D5;
+        
+        p{
+            font-size: 1.2rem;
+        }
     }
 }

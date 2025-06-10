@@ -8,7 +8,7 @@ using backend.DTO;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class CommentsController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -30,7 +30,7 @@ namespace backend.Controllers
             var post = await _context.Posts.FindAsync(dto.PostId);
             if (user == null || post == null)
             {
-                return NotFound();
+                return NotFound("User most login first before login");
             }
 
             if (post.Comments == null)
@@ -67,17 +67,58 @@ namespace backend.Controllers
             return Ok(await _context.Comments.ToListAsync());
         }
 
-        [HttpGet("comments/{id}")]
-        public async Task<IActionResult> GetComment(int id)
+        [HttpGet("comments/user/{id}")]
+        public async Task<IActionResult> GetCommentsByUser(int id)
         {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
-                return NotFound("Comment not found");
+                return NotFound("User not found");
             }
 
-            return Ok(comment);
+            var comments = user.Comments;
+
+            if (comments == null || comments.Count == 0)
+            {
+                return NotFound("You don't have any comments yet");
+            }
+
+            var commentsList = await _context.Comments.Where(c => comments.Contains(c.Id)).ToListAsync();
+
+            if (commentsList == null || commentsList.Count() == 0)
+            {
+                return NotFound("You don't have any comments yet");
+            }
+
+            return Ok(commentsList);
         }
+
+        [HttpGet("comments/post/{id}")]
+        public async Task<IActionResult> GetCommentsByPost(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return NotFound("Post not found");
+            }
+
+            var comments = post.Comments;
+
+            if (comments == null || comments.Count == 0)
+            {
+                return NotFound("No comments found for this post");
+            }
+
+            var commentsList = await _context.Comments.Where(c => comments.Contains(c.Id)).ToListAsync();
+            
+            if (commentsList == null || commentsList.Count == 0)
+            {
+                return NotFound("No comments found for this post");
+            }
+
+            return Ok(commentsList);
+        }
+
 
         [HttpPut("comments/{id}")]
         public async Task<IActionResult> UpdateComment(int id, [FromBody] Comments comment)
@@ -109,25 +150,35 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var usersWithComment = await _context.Users.Where(u => u.Comments != null && u.Comments.Contains(id)).ToListAsync();
+            // Remove the comment ID from all users' Comments lists
+            var usersWithComment = (await _context.Users.ToListAsync())
+                .Where(u => u.Comments != null && u.Comments.Contains(id))
+                .ToList();
             foreach (var user in usersWithComment)
             {
                 if (user.Comments != null)
                 {
                     user.Comments.Remove(id);
                 }
+                _context.Users.Update(user); // Ensure EF tracks the change
             }
 
-            var postsWithComment = await _context.Posts.Where(p => p.Comments != null && p.Comments.Contains(id)).ToListAsync();
+            // Remove the comment ID from all posts' Comments lists
+            var postsWithComment = (await _context.Posts.ToListAsync())
+                .Where(p => p.Comments != null && p.Comments.Contains(id))
+                .ToList();
             foreach (var post in postsWithComment)
             {
                 if (post.Comments != null)
                 {
                     post.Comments.Remove(id);
                 }
+                _context.Posts.Update(post); // Ensure EF tracks the change
             }
 
+            // Remove the comment itself
             _context.Comments.Remove(comment);
+
             await _context.SaveChangesAsync();
 
             return Ok("Comment deleted successfully");

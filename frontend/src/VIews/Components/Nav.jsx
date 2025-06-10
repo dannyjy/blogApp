@@ -2,6 +2,7 @@ import '../../Styles/Nav.scss'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Post from '../UI/Post';
+import UserMenu from '../UI/UserMenu';
 
 const Nav = () => {
   const location = useLocation();
@@ -13,14 +14,6 @@ const Nav = () => {
     setUser(!user);
   }
 
-  const handleLogOut = () => {
-    if(!window.confirm('Are you sure you want to log out?')) {
-      return;
-    }
-    localStorage.removeItem('user');
-    setUser(false);
-    navigate('/');
-  }
   const handlePostToggle = () => {
     setToggle(!toggle);
   }
@@ -30,15 +23,18 @@ const Nav = () => {
       <div className="container">
         <h1 onClick={() => {navigate('/')}} className="logo">Tech<span>Chat</span></h1>
         <div className="search">
-          <img src="/images/search.svg" alt="" />
-          <input type="text" placeholder="Search" />
+          <div className="search-input">
+            <img src="/images/search.svg" alt="" className='icon'/>
+            <input type="text" placeholder="Search" />
+          </div>
+          <img src="/images/menu.svg" alt="" className='icon menu' onClick={handleMenuToggle}/>
         </div>
       </div>
       {
         location.pathname === '/user' ? (
           <div className='user-menu'>
             <div className='write' onClick={handlePostToggle}>
-              <img src="/images/write.svg" alt="" className='icon'/>
+              <img src="/images/write.svg" alt="" className='icon menu'/>
               <p>Write</p>
             </div>
             {
@@ -49,15 +45,7 @@ const Nav = () => {
               ></div>
               <h4>John Doe</h4>
             </div>
-            {user && (
-              <div className='user-dropdown'>
-                <ul>
-                  <li><Link to="/user/profile">Profile</Link></li>
-                  <li><Link to="/user/settings">Settings</Link></li>
-                  <li onClick={handleLogOut}>Logout</li>
-                </ul>
-              </div>
-            )}
+            {user && <UserMenu/>}
           </div>
         ) : (
           <div className='btns'>

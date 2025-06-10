@@ -7,7 +7,7 @@ using backend.DTO;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class PostsController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -52,7 +52,6 @@ namespace backend.Controllers
 
             return Ok(await _context.Posts.ToListAsync());
         }
-
 
         // Get all posts for a specific user
         [HttpGet("posts")]
@@ -137,7 +136,7 @@ namespace backend.Controllers
                 )
                 .ToListAsync();
 
-                return Ok(posts);
+            return Ok(posts);
         }
     }
 }
