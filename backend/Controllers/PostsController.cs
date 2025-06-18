@@ -34,30 +34,49 @@ namespace backend.Controllers
                 user.Posts = new List<int>();
             }
             post.Id = new Random().Next(100, 9999);
+            post.Users = Id;
             user.Posts.Add(post.Id);
             _context.Posts.Add(post);
 
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(CreatePost), new { id = post.Id }, post);
         }
-        
-        // Get all posts
-        [HttpGet("post")]
-        public async Task<IActionResult> GetPosts()
-        {
-            if (await _context.Posts.CountAsync() == 0)
-            {
-                return NotFound("No posts found");
-            }
 
-            return Ok(await _context.Posts.ToListAsync());
+        // Get all posts and the user who created them with all his/her data besides there passowrd
+        [HttpGet("post")]
+        public async Task<IActionResult> GetAllPosts()
+        {
+            var posts = await _context.Posts
+                .Join(
+                    _context.Users,
+                    post => post.Users,
+                    user => user.Id,
+                    (post, user) => new {
+                        post.Id,
+                        post.Title,
+                        post.Description,
+                        post.Category,
+                        post.Image,
+                        User = new {
+                            user.Id,
+                            user.FirstName,
+                            user.LastName,
+                            user.Email,
+                            user.Image
+                        }
+                    }
+                )
+                .ToListAsync();
+
+            return Ok(posts);
         }
 
-        // Get all posts for a specific user
+
+        // Get all posts for a specific user and the user
         [HttpGet("posts")]
-        public async Task<IActionResult> GetPosts(UserIdDTO users)
+        public async Task<IActionResult> GetPosts(int id)
         {
-            var user = await _context.Users.FindAsync(users.Id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -75,16 +94,16 @@ namespace backend.Controllers
             return Ok(posts);
         }
 
-        // [HttpGet("posts/{id}")]
-        // public async Task<IActionResult> GetPost(UserIdDTO user)
-        // {
-        //     var post = await _context.Posts.FindAsync(user.Id);
-        //     if (post == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     return Ok(post);
-        // }
+        [HttpGet("post/{Id}")]
+        public async Task<IActionResult> GetPost(int Id)
+        {
+            var post = await _context.Posts.FindAsync(Id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+        }
 
         [HttpPut("post/{id}")]
         public async Task<IActionResult> UpdatePost(int id, [FromBody] Posts post)
@@ -101,7 +120,7 @@ namespace backend.Controllers
             existingPost.Category = post.Category;
             existingPost.Image = post.Image;
 
-            _context.Posts.Update(post);
+            // _context.Posts.Update(post);
             await _context.SaveChangesAsync();
 
             return Ok("Post updated successfully");
@@ -123,16 +142,35 @@ namespace backend.Controllers
         }
 
         [HttpGet("post/search")]
-        public async Task<IActionResult> SearchPosts(SearchPostsDTO seacrh)
+        public async Task<IActionResult> SearchPosts(string query)
         {
             var posts = await _context.Posts
                 .Where(p =>
-                    !string.IsNullOrEmpty(seacrh.query) &&
+                    !string.IsNullOrEmpty(query) &&
                     (
-                        (p.Title != null && p.Title.Contains(seacrh.query)) ||
-                        (p.Category != null && p.Category.Contains(seacrh.query)) ||
-                        (p.Description != null && p.Description.Contains(seacrh.query))
+                        (p.Category != null && p.Category.Contains(query)) ||
+                        (p.Title != null && p.Title.Contains(query))
+                    // (p.Description != null && p.Description.Contains(query))
                     )
+                )
+                .Join(
+                    _context.Users,
+                    post => post.Users,
+                    user => user.Id,
+                    (post, user) => new {
+                        post.Id,
+                        post.Title,
+                        post.Description,
+                        post.Category,
+                        post.Image,
+                        User = new {
+                            user.Id,
+                            user.FirstName,
+                            user.LastName,
+                            user.Email,
+                            user.Image
+                        }
+                    }
                 )
                 .ToListAsync();
 

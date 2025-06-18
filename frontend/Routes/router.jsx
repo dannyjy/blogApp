@@ -1,10 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../src/App.jsx';
 import NotFound from './../src/VIews/UI/NotFound';
-import Login from '../src/VIews/Components/Login.jsx';
-import SignUp from '../src/VIews/Components/SignUp.jsx';
-import Settings from '../src/VIews/Components/Settings.jsx';
-import Profile from '../src/VIews/Components/Profile.jsx';
+import Comment from '../src/VIews/UI/Comment.jsx';
+import Login from '../src/VIews/Components/Auth/Login.jsx';
+import SignUp from '../src/VIews/Components/Auth/SignUp.jsx';
+import AllPosts from '../src/VIews/Components/AllPosts.jsx';
+import UserProfile from '../src/VIews/Components/UserProfile.jsx';
+import AllUserPost from '../src/VIews/Components/User Section/AllUserPost.jsx';
+import UserAccout from '../src/VIews/Components/User Section/UserAccount.jsx';
+import AllUserComments from './../src/VIews/Components/User Section/AllUserComments';
 
 const router = createBrowserRouter([
     {
@@ -14,7 +18,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <div>Home Page</div>,
+                element: <AllPosts/>,
             },
             {
                 path: '/user',
@@ -22,11 +26,21 @@ const router = createBrowserRouter([
             },
             {
                 path: '/user/profile',
-                element: <Profile/>,
-            },
-            {
-                path: '/user/settings',
-                element: <Settings/>,
+                element: <UserProfile/>,
+                children: [
+                    {
+                        path: '/user/profile',
+                        element: <UserAccout/>,
+                    },
+                    {
+                        path: '/user/profile/all-comments',
+                        element: <AllUserComments/>,
+                    },
+                    {
+                        path: '/user/profile/all-posts',
+                        element: <AllUserPost/>,
+                    }
+                ]
             },
             {
                 path: '/Admin',
@@ -35,6 +49,10 @@ const router = createBrowserRouter([
             {
                 path: '/write',
                 element: <div>Write Page</div>,
+            },
+            {
+                path: '/comment/:id',
+                element: <Comment />
             },
         ]
     },

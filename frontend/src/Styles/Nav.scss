@@ -81,6 +81,62 @@ nav{
     
     .user-menu{
         // display: none;
+
+        .profile {
+            gap: .5rem;
+            display: flex;
+            padding: .5rem;
+            border-radius: 1.5rem;
+            align-items: center;
+            border: 2px solid #b9b9b9;
+            
+            .user{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-size: cover;
+                background-position: center;
+            }
+            
+        }
+    
+        .user-dropdown{
+            top: 100%;
+            overflow: hidden;
+            position: absolute;
+            border-radius: 1rem;
+            border: 2px solid #b9b9b9;
+            
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                
+                li {
+                    font-size: 1.2rem;
+                    color: #000;
+                    padding: .6rem 2rem;
+                    
+                    &:hover {
+                        background-color: #f0f0f0;
+                    }
+                }
+            }
+        }
+    }
+
+    .write{
+        gap: .2rem;
+        display: flex;
+        padding: .8rem;
+        cursor: pointer;
+        border-radius: 1rem ;
+        align-items: center;
+        background-color: #D5D5D5;
+        
+        p{
+            font-size: 1.2rem;
+        }
     }
 }
 
@@ -94,9 +150,9 @@ nav{
             align-items: center;
             justify-content: space-between;
         
-            .search .menu{
-                display: none;
-            }
+                .search .menu{
+                    display: none;
+                }
         }
     
         .btns {
@@ -126,70 +182,13 @@ nav{
                     }
                 }
             }
-        }
-    
+        }   
     
         .user-menu{
-            gap: 1rem;;
+            display: block;
+            gap: 1rem;
             display: flex;
             align-items: center;
-            display: none;
-        
-            .profile {
-                gap: .5rem;
-                display: flex;
-                padding: .5rem;
-                border-radius: 1.5rem;
-                align-items: center;
-                border: 2px solid #b9b9b9;
-                
-                .user{
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    background-size: cover;
-                    background-position: center;
-                }
-                
-            }
-        
-            .user-dropdown{
-                top: 100%;
-                overflow: hidden;
-                position: absolute;
-                border-radius: 1rem;
-                border: 2px solid #b9b9b9;
-                
-                ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                    
-                    li {
-                        font-size: 1.2rem;
-                        color: #000;
-                        padding: .6rem 2rem;
-                        
-                        &:hover {
-                            background-color: #f0f0f0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .write{
-        gap: .2rem;
-        display: flex;
-        padding: .8rem;
-        cursor: pointer;
-        border-radius: 1rem ;
-        align-items: center;
-        background-color: #D5D5D5;
-        
-        p{
-            font-size: 1.2rem;
         }
     }
 }

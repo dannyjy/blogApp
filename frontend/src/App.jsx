@@ -3,7 +3,7 @@ import {Outlet, useLocation} from "react-router-dom"
 import "./Styles/main.scss"
 import Footer from "./VIews/Components/Footer"
 import Aside from "./VIews/Components/Aside"
-import Section from "./VIews/Components/Section"
+import Section from "./VIews/Components/Home"
 
 function App() {
   const location = useLocation();
@@ -16,14 +16,14 @@ function App() {
           location.pathname === "/" ?
           (
             <div className="blog-section">
-              <Aside />
+              {/* <Aside /> */}
               <Section />
             </div>
           ) :
           <Outlet />
         }        
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

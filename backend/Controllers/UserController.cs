@@ -18,7 +18,7 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpPost("user")]
+        [HttpPost("signup")]
         public async Task<IActionResult> CreateUser([FromBody] Users user)
         {
             if (user == null || !ModelState.IsValid)
@@ -26,6 +26,13 @@ namespace backend.Controllers
                 return BadRequest(ModelState);
             }
 
+            // handle duplicate email
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (existingUser != null)
+            {
+                return BadRequest("Email already exists");
+            }
+            
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -58,11 +65,6 @@ namespace backend.Controllers
                 return BadRequest("User data is required");
             }
 
-            if (id != user.Id)
-            {
-                return BadRequest("User ID mismatch");
-            }
-
             var existingUser = await _context.Users.FindAsync(id);
             if (existingUser == null)
             {
@@ -75,7 +77,16 @@ namespace backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            // Return the updated user (without password)
+            var updatedUser = new
+            {
+                existingUser.Id,
+                existingUser.FirstName,
+                existingUser.LastName,
+                existingUser.Email
+            };
+
+            return Ok(updatedUser);
         }
 
         // Update Password

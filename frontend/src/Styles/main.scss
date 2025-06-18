@@ -1,10 +1,12 @@
 @use "./global" as *;
 
 .main-content{
+    height: 100%;
     padding: 0rem 1rem;
     padding-top: 2rem;
+    
     .blog-section{
-        height: 100vh;
+        height: 100%;
 
     }
 
@@ -25,54 +27,55 @@
         }
     }
     
-    .aside{
-        padding-bottom: 1rem;
+    // .aside{
+    //     height: 100%;
+    //     padding-bottom: 1rem;
 
-        h1{
-            padding-bottom: 1rem;
-        }
+    //     h1{
+    //         padding-bottom: 1rem;
+    //     }
         
-        .categories{
-            gap: .5rem;
-            display: flex;
-            flex-wrap: wrap;
+    //     .categories{
+    //         gap: .5rem;
+    //         display: flex;
+    //         flex-wrap: wrap;
     
-            button{
-                border: none;
-                font-weight: 600;
-                font-size: 1rem;
-                cursor: pointer;
-                border-radius: 1rem;
-                padding: .9rem 1.5rem;
-                background-color: #D5D5D5;
+    //         button{
+    //             border: none;
+    //             font-weight: 600;
+    //             font-size: 1rem;
+    //             cursor: pointer;
+    //             border-radius: 1rem;
+    //             padding: .9rem 1.5rem;
+    //             background-color: #D5D5D5;
                 
-                &:hover{
-                    color: #fff;
-                    background-color: #3E3E3E;
-                }
-            }
-            button.active{
-                color: #fff;
-                background-color: #3E3E3E;
-            }
-        }
-    }
+    //             &:hover{
+    //                 color: #fff;
+    //                 background-color: #3E3E3E;
+    //             }
+    //         }
+    //         button.active{
+    //             color: #fff;
+    //             background-color: #3E3E3E;
+    //         }
+    //     }
+    // }
 }
 
 
 @media (width >= 1000px) {
-    .main-content{
-        max-width: 1366px;
+    main{
         margin: auto;
+        max-width: 1366px;
         
-        .blog-section{
-            display: grid;
-            grid-template-columns: 30% 70%;
-        }
+        // .blog-section{
+        //     display: grid;
+        //     grid-template-columns: 30% 70%;
+        // }
     }
-
+    
     .section{
+        height: 100%;
         padding-left: 1rem;
-        border-left: 1px solid #D5D5D5;
     }
 }

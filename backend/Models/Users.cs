@@ -9,6 +9,8 @@ namespace backend.Models
         public string? FirstName { get; set; }
         [Required]
         public string? LastName { get; set; }
+        
+        public string? Image { get; set; }
         [Required]
         public string? Email { get; set; }
         [Required]

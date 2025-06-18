@@ -1,10 +1,36 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import "/src/Styles/Post.scss"
+import { useNavigate, useLocation } from 'react-router-dom'
+import "../../Styles/PostCard.scss"
 import { motion, AnimatePresence, easeInOut} from "framer-motion";
 import Axios from 'axios'
 
-const Post = ({Close}) => {
+const Post = ({Close, postData, onSave }) => {
+
+    const location = useLocation();
+    const [profile, setProfile] = useState({
+        authorized: false,
+        data: { id: "", firstName: "", lastName: "", email: "" }
+    })
+
+    useEffect(() => {
+        if (postData) {
+            Title.current.value = postData.title || "";
+            Category.current.value = postData.category || "";
+            Description.current.value = postData.description || "";
+            setUploadImage(postData.image || null);
+        }
+    }, [postData]);
+
+    useEffect(() => {
+        const userData = sessionStorage.getItem("_user_data");
+
+        if (userData !== null) {
+            const data = JSON.parse(userData);
+            setProfile(data)
+        } else {
+            setProfile({authorized: false, data: { id: "", firstName: "", lastName: "", email: "" }})
+        }
+    }, [location])
 
     const navigate = useNavigate();
     const [uploadImage, setUploadImage] = useState(null);
@@ -30,31 +56,43 @@ const Post = ({Close}) => {
         data.append('file', uploadImage)
     })
     
-    const Category = useRef();
     const Title = useRef();
+    const Category = useRef();
     const Description = useRef();
     const File = useRef();
     
     const handlePost = (e) => {
         e.preventDefault();
 
-        Axios.post("http://localhost:5009/post?id=4",
-            {
-                Title: Title.current.value,
-                Category: Category.current.value, 
-                Description: Description.current.value, 
-                Image:  uploadImage
-            })
-            .then((response) => {
-                alert("Blog Posted Successfully")
-                Close()
-                navigate("/")
-                console.log(response)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
+        if (!Title.current.value.trim() || !Category.current.value.trim() || !Description.current.value.trim()) {
+            alert("All fields are required!");
+            return;
+        }
+
+        const updatedData = {
+            Title: Title.current.value,
+            Category: Category.current.value,
+            Description: Description.current.value,
+            Image: uploadImage
+        };
+
+        if (onSave && postData) {
+            onSave(postData.id, updatedData);
+        } else {
+            // Create mode
+            Axios.post(`http://localhost:5009/post?id=${profile.data.id}`, updatedData)
+                .then((response) => {
+                    console.log(response.data);
+                    alert("Blog Posted Successfully");
+                    Close();
+                    navigate("/");
+                    // window.location.reload();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    };
 
   return (
     <AnimatePresence>
@@ -74,8 +112,8 @@ const Post = ({Close}) => {
                         <input type="file" id='file' name='file' ref={File} onChange={handleImageUpload}/>
                     </div>
                     <input type="text"  placeholder='Title' ref={Title} />
-                    <select name="" id="Category" placeholder='Category' ref={Category}>
-                        <option value="Category">Categories</option>
+                    <select id="Category" placeholder='Category' ref={Category}>
+                        <option value="">Select Category</option>
                         <option value="JavaScript">JavaScript</option>
                         <option value="Design">Design</option>
                         <option value="Python">Python</option>
@@ -83,10 +121,11 @@ const Post = ({Close}) => {
                         <option value="Java">Java</option>
                         <option value="C++">C++</option>
                         <option value="C-SHARP">C-SHARP</option>
+                        <option value="other">other</option>
                     </select>
                     <textarea name="" id="Description" placeholder='Description' ref={Description}></textarea>
                     <div className='btns'>
-                        <button type='button' onClick={handlePost}>Post</button>
+                        <button type='submit'>{postData ? "Update" : "Post"}</button>
                         <button type='button' onClick={() => { if (confirm("Are you sure? You want to cancel")) Close(); }} className='cancel'>Cancel</button>
                     </div>
                 </form>

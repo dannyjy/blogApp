@@ -1,0 +1,73 @@
+@use "./global" as *;
+
+#user_dashboard{
+    height: 100%;
+    display: flex;
+    padding: 1rem;
+    overflow: hidden;
+    flex-direction: column;
+
+    aside{
+        ul{
+            gap: 1rem;
+            display: flex;
+            list-style: none;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+
+            li{
+                font-size: 1.2rem;
+                cursor: pointer;
+                
+                a{
+                    text-decoration: none;
+                    cursor: pointer;
+                    color: #000;
+
+                    &:hover{
+                        color: #0000cf;
+                    }
+
+                }
+            }
+        }
+    }
+    main{
+        
+        width: 100%;
+        overflow-y: auto;
+        padding-top: 2rem;
+        scrollbar-width: none;
+        border-left: 1px solid #ddd;
+    }
+}
+
+@media (min-width: 900px) {
+    
+    #user_dashboard{
+        display: flex;
+        margin: auto;
+        max-width: 1366px;
+        flex-direction: row;
+
+        aside{
+            width: 20%;
+            height: 100%;
+
+            ul{
+                border: none;
+                display: block;
+                list-style: none;
+
+                li{
+                    padding: 10px;
+                    margin-bottom: .5rem;
+                }
+            }
+        }
+        main{
+            width: 100%;
+            padding-top: 0rem;
+        }
+    }
+}

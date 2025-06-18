@@ -8,6 +8,10 @@ namespace backend.Models
 
         [Required]
         public string? Comment { get; set; }
+
+        public int User { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 
 }

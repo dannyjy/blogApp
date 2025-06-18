@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611195712_UpdateCommentsTable")]
+    partial class UpdateCommentsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,8 +40,11 @@ namespace backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("User")
-                        .HasColumnType("int");
+                    b.Property<string>("Post")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -74,9 +80,6 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("Users")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
@@ -102,9 +105,6 @@ namespace backend.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Image")
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")

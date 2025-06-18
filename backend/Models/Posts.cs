@@ -18,8 +18,11 @@ namespace backend.Models
         public string? Category { get; set; }
 
         public List<int>? Comments { get; set; }
-        
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        public int? Users { get; set; }
+
 
     }
 }

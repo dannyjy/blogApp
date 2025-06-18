@@ -19,18 +19,22 @@ namespace backend.Controllers
         }
 
         [HttpPost("comment")]
-        public async Task<IActionResult> CreateComment([FromBody] CreateCommentDto dto)
+        public async Task<IActionResult> CreateComment(int UserId, int PostId, [FromBody] CreateCommentDto dto)
         {
             if (dto == null || string.IsNullOrWhiteSpace(dto.Comment))
             {
                 return BadRequest("Comment data is required.");
             }
 
-            var user = await _context.Users.FindAsync(dto.UserId);
-            var post = await _context.Posts.FindAsync(dto.PostId);
-            if (user == null || post == null)
+            var user = await _context.Users.FindAsync(UserId);
+            var post = await _context.Posts.FindAsync(PostId);
+            if (user == null)
             {
-                return NotFound("User most login first before login");
+                return NotFound("User most login first before commenting /user");
+            }
+            if (post == null)
+            {
+                return NotFound("User most login first before commenting /post");
             }
 
             if (post.Comments == null)
@@ -40,7 +44,8 @@ namespace backend.Controllers
 
             var comment = new Comments
             {
-                Comment = dto.Comment
+                Comment = dto.Comment,
+                User = UserId,
             };
 
             _context.Comments.Add(comment);
@@ -56,7 +61,18 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(CreateComment), new { id = comment.Id }, comment);
         }
 
+        // Get all comments and the user who created them with all his/her data besides there passowrd
         [HttpGet("comments")]
+        public async Task<IActionResult> GetAllComments()
+        {
+            var comments = await _context.Comments
+            .Include(c => c.User)
+            .ToListAsync();
+
+            return Ok(comments);
+        }
+
+        [HttpGet("commentss")]
         public async Task<IActionResult> GetComments()
         {
             if (await _context.Comments.CountAsync() == 0)
@@ -102,15 +118,24 @@ namespace backend.Controllers
                 return NotFound("Post not found");
             }
 
-            var comments = post.Comments;
+            var commentIds = post.Comments;
 
-            if (comments == null || comments.Count == 0)
+            if (commentIds == null)
             {
                 return NotFound("No comments found for this post");
             }
 
-            var commentsList = await _context.Comments.Where(c => comments.Contains(c.Id)).ToListAsync();
-            
+            var commentsList = await _context.Comments
+                .Where(co => commentIds.Contains(co.Id))
+                .Select(co => new {
+                    co.Id,
+                    co.Comment,
+                    co.CreatedAt,
+                    UserName = _context.Users.Where(u => u.Id == co.User).Select(u => u.FirstName + " " + u.LastName).FirstOrDefault(),
+                    UserImage = _context.Users.Where(u => u.Id == co.User).Select(u => u.Image).FirstOrDefault()
+                })
+                .ToListAsync();
+
             if (commentsList == null || commentsList.Count == 0)
             {
                 return NotFound("No comments found for this post");
@@ -120,7 +145,7 @@ namespace backend.Controllers
         }
 
 
-        [HttpPut("comments/{id}")]
+        [HttpPut("comment/{id}")]
         public async Task<IActionResult> UpdateComment(int id, [FromBody] Comments comment)
         {
             if (comment == null || !ModelState.IsValid)
@@ -141,7 +166,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("comments/{id}")]
+        [HttpDelete("comment/{id}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             var comment = await _context.Comments.FindAsync(id);

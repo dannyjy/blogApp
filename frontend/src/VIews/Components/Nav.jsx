@@ -1,51 +1,74 @@
 import '../../Styles/Nav.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import Post from '../UI/Post';
-import UserMenu from '../UI/UserMenu';
+import Post from '../UI/PostCard';
+import Axios from 'axios';
 
 const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user,setUser] = useState(false);
   const [toggle,setToggle] = useState(false);
+  
+  const [profile, setProfile] = useState({
+        authorized: false,
+        data: { id: "", firstName: "", lastName: "", email: "" }
+    })
+
+    useEffect(() => {
+        const userData = sessionStorage.getItem("_user_data");
+
+        if (userData !== null) {
+            const data = JSON.parse(userData);
+            setProfile(data)
+        } else {
+            setProfile({authorized: false, data: { id: "", firstName: "", lastName: "", email: "" }})
+        }
+    }, [location])
 
   const handleMenuToggle = () => {
-    setUser(!user);
+    navigate('/user/profile')
+}
+
+const handlePostToggle = () => {
+  profile.authorized ?
+    setToggle(!toggle) : 
+    confirm("You will have to login first to write a blog") ?
+      navigate('/login') : null ;
+
   }
 
-  const handlePostToggle = () => {
-    setToggle(!toggle);
-  }
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim() === "") return;
+    navigate(`/?search=${encodeURIComponent(searchTerm)}`);
+  };
 
   return (
     <nav>
       <div className="container">
         <h1 onClick={() => {navigate('/')}} className="logo">Tech<span>Chat</span></h1>
         <div className="search">
-          <div className="search-input">
-            <img src="/images/search.svg" alt="" className='icon'/>
-            <input type="text" placeholder="Search" />
-          </div>
+          <form className="search-input" onSubmit={handleSearch}>
+            <img src="/images/search.svg" alt="" className='icon' onClick={handleSearch}/>
+            <input type="text" placeholder="Search posts..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          </form>
           <img src="/images/menu.svg" alt="" className='icon menu' onClick={handleMenuToggle}/>
         </div>
       </div>
       {
-        location.pathname === '/user' ? (
+        profile.authorized ? (
           <div className='user-menu'>
             <div className='write' onClick={handlePostToggle}>
               <img src="/images/write.svg" alt="" className='icon menu'/>
               <p>Write</p>
             </div>
-            {
-              toggle &&  <Post Close={handlePostToggle}/>
-            }
+            {toggle &&  <Post Close={handlePostToggle}/>}
             <div className='profile'  onClick={handleMenuToggle}>
-              <div className='user' style={{ backgroundImage: 'url("/images/csparp.jpg")' }}
-              ></div>
-              <h4>John Doe</h4>
+              <div className='user' style={{ backgroundImage: 'url("/images/profile1.jpg")' }}/>
+              <h4>{profile.data.firstName.toUpperCase()} {profile.data.lastName.toUpperCase()}</h4>
             </div>
-            {user && <UserMenu/>}
           </div>
         ) : (
           <div className='btns'>
@@ -53,9 +76,7 @@ const Nav = () => {
               <img src="/images/write.svg" alt="" className='icon'/>
               <p>Write</p>
             </div>
-            {
-              toggle && <Post Close={handlePostToggle}/>
-            }
+            {toggle && <Post Close={handlePostToggle}/>}
             <section>
               <Link to="/login"><button>Login</button></Link>
               <Link to="/signup"><button>Sign</button></Link>
