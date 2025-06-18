@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";``
+import "../../../Styles/security.scss";
 import Axios from "axios";
 
 
@@ -35,31 +36,21 @@ export function Security() {
   };
 
   return (
-    <div id="account">
-      <div className="form-input2">
-        <form action="">
-          <h2>Change password</h2>
-          <div className="group">
-            <div className="form-group">
-              <label htmlFor="old password">New Password</label>
-              <input
-                type="password"
-                id="password"
-                ref={newPasswordRef}
-              />
-            </div>
+    <div id="change-password">
+      <form className="form-change-password">
+        <h2>Change Password</h2>
+        <div className="group">
+          <div className="form-g">
+            <label htmlFor="password">New Password</label>
+            <input type="password" id="password" ref={newPasswordRef} placeholder="New Password"/>
           </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">
-              Confirm Password
-            </label>
-            <input type="password" id="confirmPassword" />
+          <div className="form-g">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password"/>
           </div>
-          <button type="button" onClick={updateData}>
-            Change Password
-          </button>
-        </form>
-      </div>
+          <button type="button" onClick={updateData}>Change Password</button>
+        </div>
+      </form>
     </div>
   );
 }

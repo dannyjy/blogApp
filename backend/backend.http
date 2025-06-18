@@ -120,3 +120,11 @@ GET http://localhost:5009/post/search?query=Programming
 
 ####################################################################################
 GET http://localhost:5009/post/469
+
+###
+POST http://localhost:5009/user/12/profile-image
+Content-Type: application/json
+
+{
+    "image": "https://images.app.goo.gl/GzFkqzwui5dTV28b9"
+}

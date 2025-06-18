@@ -39,6 +39,22 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
+        [HttpPost("user/{id}/profile-image")]
+        public async Task<IActionResult> UploadProfileImage(int id, [FromBody] ProfilePictureDto dto)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return NotFound("User not found");
+
+            if (string.IsNullOrEmpty(dto.Image))
+                return BadRequest("No image provided");
+
+            user.Image = dto.Image;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Profile image updated", image = user.Image });
+        }
+
         [HttpGet("user")]
         public async Task<IActionResult> GetUsers()
         {
@@ -174,7 +190,8 @@ namespace backend.Controllers
                 user.Email,
                 user.CreatedAt,
                 user.Posts,
-                user.Comments
+                user.Comments,
+                user.Image
             };
 
             return Ok(userDto);
